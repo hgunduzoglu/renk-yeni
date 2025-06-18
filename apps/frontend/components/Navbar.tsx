@@ -1,6 +1,4 @@
-// PATH: apps/frontend/components/Navbar.tsx
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import clsx from "clsx";
 
@@ -18,16 +16,20 @@ export default function Navbar() {
   return (
     <header className="bg-white/80 backdrop-blur sticky top-0 z-50">
       <nav className="container mx-auto flex items-center justify-between px-4 py-3">
-        <Link href="/">
-          <Image src="/logo.svg" alt="RENK" width={128} height={32} priority />
+        {/* Klasik <img> + mutlak yol — ağda da kesin görünür */}
+        <Link href="/" className="flex items-center">
+          <img
+            src="/logo.svg"
+            alt="RENK"
+            className="h-8 w-auto"
+            onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
+          />
         </Link>
-        <button
-          className="md:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label="menu"
-        >
+
+        <button className="md:hidden" onClick={() => setOpen(!open)}>
           ☰
         </button>
+
         <ul
           className={clsx(
             "md:flex gap-6 font-medium",

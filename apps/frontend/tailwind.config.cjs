@@ -1,17 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./lib/**/*.{ts,tsx}"
-  ],
-    theme: {
-      extend: { margin: { 'screen': '100vh' } },
-        colors: {
-          brand: { DEFAULT: "#000", primary: "#b00020" }
-        }
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      spacing: {
+        'screen-minus-nav': 'calc(100vh - 4rem)' // 4rem = navbar (64 px)
       }
-    },
-    plugins: [require("@tailwindcss/typography")]
-  };
-  
+    }
+  },
+  plugins: [require("@tailwindcss/typography")]
+};

@@ -9,7 +9,7 @@ r.get("/", async (_req, res) => {
   const albums = await prisma.album.findMany({
     include: { images: { take: 1 } }
   });
-  res.json(albums);
+  res.json(albums);           // dizi boş dönebilir
 });
 
 /** GET /api/gallery/:slug — Albüm içindeki görseller */
