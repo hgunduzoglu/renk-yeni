@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   db:
     image: postgres:15
@@ -9,6 +10,33 @@ services:
       POSTGRES_DB: renk
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - renk-net
     ports: ["5432:5432"]
+
+  backend:
+    build: ./apps/backend
+    depends_on: [db]
+    environment:
+      DATABASE_URL: postgres://renk:renkpass@db:5432/renk
+      JWT_SECRET: supersecret
+      PORT: 4000
+    networks: [renk-net]
+    ports: ["4000:4000"]
+    command: ["pnpm","start:prod"]
+
+  frontend:
+    build: ./apps/frontend
+    depends_on: [backend]
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api
+      NEXT_PUBLIC_CDN_URL: /
+    networks: [renk-net]
+    ports: ["3000:3000"]
+    command: ["pnpm","dev"]
+
 volumes:
   pgdata:
+
+networks:
+  renk-net:
