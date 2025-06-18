@@ -6,7 +6,7 @@ module.exports = {
     "./lib/**/*.{ts,tsx}"
   ],
     theme: {
-      extend: {
+      extend: { margin: { 'screen': '100vh' } },
         colors: {
           brand: { DEFAULT: "#000", primary: "#b00020" }
         }
