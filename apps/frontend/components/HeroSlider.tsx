@@ -1,3 +1,4 @@
+// PATH: apps/frontend/components/HeroSlider.tsx
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -21,21 +22,22 @@ const slides = [
 
 export default function HeroSlider() {
   const [idx, setIdx] = useState(0);
+
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % slides.length), 5500);
+    const t = setInterval(() => setIdx(i => (i + 1) % slides.length), 5500);
     return () => clearInterval(t);
   }, []);
 
   const active = slides[idx];
 
   return (
-    {/* 100vh - 4rem (navbar) ⇒ boşluk yok */}
-    <section className="relative h-[calc(100vh-4rem)] overflow-hidden">
+    /* 100vh - 4rem (navbar) ⇒ altta boşluk yok */
+     <section className="relative h-full overflow-hidden">
       {slides.map((s, i) => (
         <img
           key={s.src}
           src={s.src}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms] ${
             i === idx ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -50,7 +52,7 @@ export default function HeroSlider() {
         {active.cta && (
           <Link
             href={active.cta.href}
-            className="inline-block bg-white text-black px-6 py-3 font-medium hover:bg-gray-200 transition rounded"
+            className="inline-flex bg-white text-black px-6 py-3 font-medium hover:bg-gray-200 transition rounded"
           >
             {active.cta.label}
           </Link>
