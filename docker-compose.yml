@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: renk
+      POSTGRES_PASSWORD: renkpass
+      POSTGRES_DB: renk
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports: ["5432:5432"]
+volumes:
+  pgdata:
