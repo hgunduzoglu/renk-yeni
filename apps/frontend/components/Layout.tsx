@@ -20,14 +20,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <div
         className={
-          "relative flex flex-col " +
-          (isHome ? "h-screen overflow-hidden" : "min-h-screen")
+          "relative flex flex-col min-h-screen " +
+          (isHome ? "overflow-hidden" : "")
         }
       >
         <Navbar />
 
         {/* içerik */}
-        <main className={isHome ? "flex-1 overflow-hidden" : "flex-1"}>
+        <main className={isHome ? "flex-1 overflow-hidden p-0" : "flex-1"}>
           {children}
         </main>
 
