@@ -12,18 +12,18 @@ export default function ProductCard({ item, type }: { item: any; type: "product"
   return (
     <Link
       href={link}
-      className="group block shadow hover:shadow-lg transition-all duration-300 overflow-hidden rounded-lg bg-white"
+      className="group block transition-all duration-300 overflow-hidden rounded-xl"
     >
-      <div className="overflow-hidden h-56">
+      <div className="overflow-hidden h-56 rounded-xl">
         <img
           src={coverImage}
           alt={name}
           className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-semibold truncate">{name}</h3>
-        <p className="text-sm text-gray-500">
+      <div className="p-4 text-center">
+        <h3 className="text-xl font-bold text-white mb-2 drop-shadow-lg group-hover:text-yellow-300 transition-colors">{name}</h3>
+        <p className="text-white/80 text-sm drop-shadow">
           {subtext}
         </p>
       </div>

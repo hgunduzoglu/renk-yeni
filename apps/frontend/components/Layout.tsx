@@ -28,8 +28,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      {/* Arka plan slaytı: ana sayfa HARİÇ tüm sayfalarda */}
-      {!isHome && <BackgroundSlider />}
+      {/* Arka plan slaytı: tüm sayfalarda */}
+      <BackgroundSlider />
 
       <div
         className={

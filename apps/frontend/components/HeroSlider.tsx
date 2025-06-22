@@ -32,18 +32,10 @@ export default function HeroSlider() {
 
   return (
     <section className="relative w-full h-[calc(100vh-4rem)] min-h-[500px] overflow-hidden flex items-center justify-center">
-      {slides.map((s, i) => (
-        <img
-          key={s.src}
-          src={s.src}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1200ms] ${
-            i === idx ? "opacity-100" : "opacity-0"
-          }`}
-          alt={s.title}
-        />
-      ))}
-      {/* Koyu overlay */}
-      <div className="absolute inset-0 bg-black/60" />
+      {/* Arka plan artık Layout'tan BackgroundSlider tarafından sağlanıyor */}
+      
+      {/* Ekstra koyu overlay - içerik okunurluğu için */}
+      <div className="absolute inset-0 bg-black/30" />
 
       <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 md:px-0">
         <h1 className="text-white text-4xl md:text-6xl font-bold max-w-3xl text-center drop-shadow-lg mb-6">
