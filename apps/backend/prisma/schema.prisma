@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,10 +14,20 @@ datasource db {
 }
 
 model Category {
-  id        Int       @id @default(autoincrement())
-  name      String
-  slug      String    @unique
-  products  Product[]
+  id          Int         @id @default(autoincrement())
+  name        String
+  slug        String      @unique
+  description String?
+  coverImage  String?
+  parentId    Int?
+  parent      Category?   @relation("SubCategories", fields: [parentId], references: [id])
+  children    Category[]  @relation("SubCategories")
+  products    Product[]
+  albums      Album[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("categories")
 }
 
 model Product {
@@ -19,45 +35,72 @@ model Product {
   name        String
   slug        String         @unique
   description String?
-  warranty    String?
-  coverImage  String
-  category    Category       @relation(fields: [categoryId], references: [id])
+  coverImage  String?
   categoryId  Int
+  category    Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   images      ProductImage[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@map("products")
 }
 
 model ProductImage {
   id        Int     @id @default(autoincrement())
   url       String
-  product   Product @relation(fields: [productId], references: [id])
   productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([url, productId], name: "url_productId")
+  @@map("product_images")
 }
 
 model News {
-  id         Int      @id @default(autoincrement())
-  title      String
-  slug       String   @unique
-  body       String
-  coverImage String
-  createdAt  DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  body        String   // HTML content
+  coverImage  String?
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("news")
 }
 
 model Album {
-  id       Int          @id @default(autoincrement())
-  name     String
-  slug     String @unique
-  images   AlbumImage[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  slug        String       @unique
+  description String?
+  categoryId  Int?
+  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  images      AlbumImage[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("albums")
 }
 
 model AlbumImage {
-  id      Int    @id @default(autoincrement())
-  url     String
-  album   Album  @relation(fields: [albumId], references: [id])
-  albumId Int
+  id        Int     @id @default(autoincrement())
+  url       String
+  albumId   Int
+  album     Album   @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([url, albumId], name: "url_albumId")
+  @@map("album_images")
 }
 
 model AdminUser {
-  id           Int    @id @default(autoincrement())
-  email        String @unique
-  passwordHash String
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
 }
