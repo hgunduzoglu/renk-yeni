@@ -5,9 +5,9 @@ services:
     image: postgres:15
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-renk}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-renkpass}
-      POSTGRES_DB: ${POSTGRES_DB:-renk}
+      POSTGRES_USER: renk
+      POSTGRES_PASSWORD: renk2024SecurePass!
+      POSTGRES_DB: renk
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -23,8 +23,8 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER:-renk}:${POSTGRES_PASSWORD:-renkpass}@db:5432/${POSTGRES_DB:-renk}
-      JWT_SECRET: ${JWT_SECRET:-supersecret}
+      DATABASE_URL: postgres://renk:renk2024SecurePass!@db:5432/renk
+      JWT_SECRET: renk-jwt-secret-key-2024-very-secure
       PORT: 4000
       NODE_ENV: production
     networks:
@@ -42,8 +42,8 @@ services:
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000/api}
-      NEXT_PUBLIC_CDN_URL: ${NEXT_PUBLIC_CDN_URL:-/}
+      NEXT_PUBLIC_API_URL: http://146.148.111.187/api
+      NEXT_PUBLIC_CDN_URL: http://146.148.111.187
       NODE_ENV: production
     networks:
       - renk-net
