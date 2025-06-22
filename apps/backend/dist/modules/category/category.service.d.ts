@@ -6,92 +6,92 @@ export declare class CategoryService {
     constructor(prisma: PrismaService);
     create(createCategoryDto: CreateCategoryDto): Promise<{
         parent: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         };
         children: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         }[];
         _count: {
             products: number;
         };
     } & {
+        description: string | null;
         id: number;
         name: string;
-        slug: string;
-        description: string | null;
-        coverImage: string | null;
-        parentId: number | null;
         createdAt: Date;
         updatedAt: Date;
+        coverImage: string | null;
+        parentId: number | null;
+        slug: string;
     }>;
     findAll(parentId?: number): Promise<({
         parent: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         };
         children: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         }[];
         _count: {
             products: number;
         };
     } & {
+        description: string | null;
         id: number;
         name: string;
-        slug: string;
-        description: string | null;
-        coverImage: string | null;
-        parentId: number | null;
         createdAt: Date;
         updatedAt: Date;
+        coverImage: string | null;
+        parentId: number | null;
+        slug: string;
     })[]>;
     findOne(id: number): Promise<{
         parent: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         };
         children: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         }[];
         products: ({
             images: {
@@ -101,48 +101,49 @@ export declare class CategoryService {
                 productId: number;
             }[];
         } & {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            slug: string;
+            price: import("@prisma/client/runtime/library").Decimal;
             categoryId: number;
         })[];
         _count: {
             products: number;
         };
     } & {
+        description: string | null;
         id: number;
         name: string;
-        slug: string;
-        description: string | null;
-        coverImage: string | null;
-        parentId: number | null;
         createdAt: Date;
         updatedAt: Date;
+        coverImage: string | null;
+        parentId: number | null;
+        slug: string;
     }>;
     findBySlug(slug: string): Promise<{
         parent: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         };
         children: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         }[];
         products: ({
             images: {
@@ -152,82 +153,83 @@ export declare class CategoryService {
                 productId: number;
             }[];
         } & {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            slug: string;
+            price: import("@prisma/client/runtime/library").Decimal;
             categoryId: number;
         })[];
         _count: {
             products: number;
         };
     } & {
+        description: string | null;
         id: number;
         name: string;
-        slug: string;
-        description: string | null;
-        coverImage: string | null;
-        parentId: number | null;
         createdAt: Date;
         updatedAt: Date;
+        coverImage: string | null;
+        parentId: number | null;
+        slug: string;
     }>;
     update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<{
         parent: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         };
         children: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         }[];
         _count: {
             products: number;
         };
     } & {
+        description: string | null;
         id: number;
         name: string;
-        slug: string;
-        description: string | null;
-        coverImage: string | null;
-        parentId: number | null;
         createdAt: Date;
         updatedAt: Date;
+        coverImage: string | null;
+        parentId: number | null;
+        slug: string;
     }>;
     remove(id: number): Promise<{
+        description: string | null;
         id: number;
         name: string;
-        slug: string;
-        description: string | null;
-        coverImage: string | null;
-        parentId: number | null;
         createdAt: Date;
         updatedAt: Date;
+        coverImage: string | null;
+        parentId: number | null;
+        slug: string;
     }>;
     moveProductToCategory(productId: number, categoryId: number): Promise<{
         category: {
+            description: string | null;
             id: number;
             name: string;
-            slug: string;
-            description: string | null;
-            coverImage: string | null;
-            parentId: number | null;
             createdAt: Date;
             updatedAt: Date;
+            coverImage: string | null;
+            parentId: number | null;
+            slug: string;
         };
         images: {
             id: number;
@@ -236,13 +238,14 @@ export declare class CategoryService {
             productId: number;
         }[];
     } & {
+        description: string | null;
         id: number;
         name: string;
-        slug: string;
-        description: string | null;
-        coverImage: string | null;
         createdAt: Date;
         updatedAt: Date;
+        coverImage: string | null;
+        slug: string;
+        price: import("@prisma/client/runtime/library").Decimal;
         categoryId: number;
     }>;
     private generateSlug;

@@ -28,7 +28,8 @@ let CategoryController = class CategoryController {
         return this.categoryService.create(createCategoryDto);
     }
     findAll(parentId) {
-        return this.categoryService.findAll(parentId);
+        const parentIdNumber = parentId ? parseInt(parentId, 10) : undefined;
+        return this.categoryService.findAll(parentIdNumber);
     }
     async findOne(identifier) {
         const isNumeric = /^\d+$/.test(identifier);
@@ -67,9 +68,9 @@ __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiQuery)({ name: 'parentId', required: false, type: Number }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Categories retrieved successfully' }),
-    __param(0, (0, common_1.Query)('parentId', common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Query)('parentId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "findAll", null);
 __decorate([

@@ -33,8 +33,9 @@ export class CategoryController {
   @Get()
   @ApiQuery({ name: 'parentId', required: false, type: Number })
   @ApiResponse({ status: 200, description: 'Categories retrieved successfully' })
-  findAll(@Query('parentId', ParseIntPipe) parentId?: number) {
-    return this.categoryService.findAll(parentId);
+  findAll(@Query('parentId') parentId?: string) {
+    const parentIdNumber = parentId ? parseInt(parentId, 10) : undefined;
+    return this.categoryService.findAll(parentIdNumber);
   }
 
   @Get(':identifier')

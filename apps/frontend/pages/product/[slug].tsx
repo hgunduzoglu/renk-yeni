@@ -4,12 +4,16 @@ import Layout from "@/components/Layout";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { useState, useEffect } from "react";
+import { useCart } from "../../contexts/CartContext";
 
 export default function ProductDetail() {
   const { query, isReady } = useRouter();
   const productSlug = query.slug as string;
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [isAdding, setIsAdding] = useState(false);
+  const { addToCart } = useCart();
 
+  
   const { data: product, isLoading } = useQuery({
     queryKey: ["product", productSlug],
     queryFn: () => api.get(`/products/${productSlug}`).then(r => r.data),
@@ -22,6 +26,22 @@ export default function ProductDetail() {
       setSelectedImage(product.coverImage);
     }
   }, [product]);
+
+  const handleAddToCart = async () => {
+    if (!product?.id) return;
+
+    try {
+      setIsAdding(true);
+      await addToCart(product.id, 1);
+      
+      // Başarı göstergesi
+      setTimeout(() => setIsAdding(false), 1500);
+    } catch (error) {
+      console.error('Sepete eklerken hata:', error);
+      setIsAdding(false);
+      alert('Ürün sepete eklenirken bir hata oluştu. Lütfen tekrar deneyiniz.');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -117,7 +137,47 @@ export default function ProductDetail() {
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">
                   {product.name}
                 </h1>
+                {/* Fiyat Bilgisi */}
+                {product.price && (
+                  <div className="mt-6">
+                    <div className="text-center bg-yellow-500/20 rounded-xl p-4 border border-yellow-500/30">
+                      <span className="text-3xl font-bold text-yellow-400 drop-shadow-lg">
+                        ₺{Number(product.price).toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
+                      </span>
+                      <p className="text-sm text-white/60 mt-1">Temsili fiyat</p>
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* Sepete Ekle Butonu */}
+              {product.price && (
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={isAdding}
+                    className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 ${
+                      isAdding
+                        ? 'bg-green-500 text-white'
+                        : 'bg-yellow-500 hover:bg-yellow-600 text-black'
+                    } disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105`}
+                  >
+                    {isAdding ? (
+                      <span className="flex items-center justify-center gap-3">
+                        <svg className="animate-spin h-6 w-6" viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" opacity="0.3"/>
+                          <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                        Sepete Eklendi!
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-3">
+                        🛒 Sepete Ekle
+                      </span>
+                    )}
+                  </button>
+                </div>
+              )}
 
               {/* Açıklama */}
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
@@ -155,7 +215,7 @@ export default function ProductDetail() {
                 <h4 className="text-white font-semibold mb-4">Bu ürünle ilgileniyorum</h4>
                 <a
                   href="/contact"
-                  className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-semibold py-4 px-6 rounded-xl hover:from-yellow-500 hover:to-yellow-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center"
+                  className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-4 px-6 rounded-xl hover:from-blue-600 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />

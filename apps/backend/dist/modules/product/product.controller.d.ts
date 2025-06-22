@@ -27,6 +27,7 @@ export declare class ProductController {
         updatedAt: Date;
         coverImage: string | null;
         slug: string;
+        price: import("@prisma/client/runtime/library").Decimal;
         categoryId: number;
     })[]>;
     findOne(identifier: string): Promise<{
@@ -54,6 +55,7 @@ export declare class ProductController {
         updatedAt: Date;
         coverImage: string | null;
         slug: string;
+        price: import("@prisma/client/runtime/library").Decimal;
         categoryId: number;
     }>;
 }

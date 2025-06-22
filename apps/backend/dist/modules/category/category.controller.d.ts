@@ -38,7 +38,7 @@ export declare class CategoryController {
         createdAt: Date;
         updatedAt: Date;
     }>;
-    findAll(parentId?: number): Promise<({
+    findAll(parentId?: string): Promise<({
         parent: {
             id: number;
             name: string;
@@ -108,6 +108,7 @@ export declare class CategoryController {
             coverImage: string | null;
             createdAt: Date;
             updatedAt: Date;
+            price: import("@prisma/client/runtime/library").Decimal;
             categoryId: number;
         })[];
         _count: {
@@ -226,6 +227,7 @@ export declare class CategoryController {
         coverImage: string | null;
         createdAt: Date;
         updatedAt: Date;
+        price: import("@prisma/client/runtime/library").Decimal;
         categoryId: number;
     }>;
 }

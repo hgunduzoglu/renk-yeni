@@ -35,10 +35,12 @@ model Product {
   name        String
   slug        String         @unique
   description String?
+  price       Decimal        @db.Decimal(10, 2)
   coverImage  String?
   categoryId  Int
   category    Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   images      ProductImage[]
+  cartItems   CartItem[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
@@ -103,4 +105,49 @@ model AdminUser {
   updatedAt DateTime @updatedAt
 
   @@map("admin_users")
+}
+
+// Sepet sistemi için yeni modeller
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  sessionId String  // Misafir kullanıcılar için session ID
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int     @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([sessionId, productId], name: "session_product")
+  @@map("cart_items")
+}
+
+model Order {
+  id              Int      @id @default(autoincrement())
+  orderNumber     String   @unique
+  customerName    String
+  customerSurname String
+  customerPhone   String
+  customerEmail   String
+  deliveryAddress String
+  totalAmount     Decimal  @db.Decimal(10, 2)
+  items           OrderItem[]
+  status          String   @default("pending") // pending, confirmed, cancelled
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int
+  productName String  // Sipariş sırasındaki ürün adı
+  quantity  Int
+  unitPrice Decimal  @db.Decimal(10, 2)
+  totalPrice Decimal @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+
+  @@map("order_items")
 }

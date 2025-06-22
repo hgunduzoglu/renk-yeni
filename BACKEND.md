@@ -29,7 +29,7 @@
 | **Kimlik Doğrulama** | JWT (Access — 15 dk, Refresh — 7 gün) |
 | **Medya Deposu** | Geliştirme: `uploads/` klasörü • Prod: S3/MinIO |
 | **Admin İşlevleri** | Kategori/Alt kategori, Ürün, Haber, Galeri CRUD |
-| **Site Sayfaları** | Ana sayfa – Kurumsal – Ürünlerimiz – Haberler – Galeri – İletişim |
+| **Site Sayfaları** | Ana sayfa – Hakkımızda – Ürünlerimiz – Haberler – Galeri – İletişim |
 
 ---
 

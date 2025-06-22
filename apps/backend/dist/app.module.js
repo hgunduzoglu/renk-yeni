@@ -17,6 +17,7 @@ const category_module_1 = require("./modules/category/category.module");
 const product_module_1 = require("./modules/product/product.module");
 const news_module_1 = require("./modules/news/news.module");
 const gallery_module_1 = require("./modules/gallery/gallery.module");
+const cart_module_1 = require("./modules/cart/cart.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -36,6 +37,7 @@ exports.AppModule = AppModule = __decorate([
             product_module_1.ProductModule,
             news_module_1.NewsModule,
             gallery_module_1.GalleryModule,
+            cart_module_1.CartModule,
         ],
     })
 ], AppModule);

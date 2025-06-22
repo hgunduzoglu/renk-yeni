@@ -27,6 +27,7 @@ export declare class ProductService {
         updatedAt: Date;
         coverImage: string | null;
         slug: string;
+        price: import("@prisma/client/runtime/library").Decimal;
         categoryId: number;
     })[]>;
     findOne(id: number): Promise<{
@@ -54,6 +55,7 @@ export declare class ProductService {
         updatedAt: Date;
         coverImage: string | null;
         slug: string;
+        price: import("@prisma/client/runtime/library").Decimal;
         categoryId: number;
     }>;
     findBySlug(slug: string): Promise<{
@@ -81,6 +83,7 @@ export declare class ProductService {
         updatedAt: Date;
         coverImage: string | null;
         slug: string;
+        price: import("@prisma/client/runtime/library").Decimal;
         categoryId: number;
     }>;
     private generateSlug;

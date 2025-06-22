@@ -4,10 +4,11 @@ import clsx from "clsx";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import Image from "next/image";
+import CartIcon from "./CartIcon";
 
 const mainMenuItems = [
   { label: "Ana Sayfa", english: "home", href: "/" },
-  { label: "Kurumsal", english: "about us", href: "/about" },
+  { label: "Hakkımızda", english: "about us", href: "/about" },
   { label: "Ürünlerimiz", english: "products", href: "#", hasDropdown: true, type: "products" },
   { label: "Haberler", english: "news", href: "/news" },
   { label: "Galeri", english: "photo gallery", href: "/gallery", hasDropdown: true, type: "gallery" },
@@ -99,35 +100,131 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 min-w-[120px] relative z-10">
             <Image
-            src="/logo.svg"
+              src="/logo.png"
               alt="RENK Gölgelendirme"
               width={40}
               height={40}
               className="h-10 w-auto object-contain"
-              style={{ maxHeight: 40 }}
-              onError={(e) => {
-                console.log("Logo yüklenemedi");
-                (e.target as HTMLImageElement).style.display = "none";
-                const parent = (e.target as HTMLImageElement).parentElement;
-                if (parent && !parent.querySelector('.logo-text')) {
-                  const span = document.createElement('span');
-                  span.className = 'logo-text text-2xl font-bold text-yellow-400';
-                  span.textContent = 'RENK';
-                  parent.appendChild(span);
-                }
-              }}
             />
-            <span className="text-2xl font-bold text-yellow-400 logo-text hidden">RENK</span>
-        </Link>
+          </Link>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-2xl z-10"
-            onClick={() => setMenuOpen(!isMenuOpen)}
-            aria-label="Menüyü Aç/Kapat"
-          >
-          ☰
-        </button>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-6">
+            <ul className="flex items-center space-x-6 text-base">
+              {mainMenuItems.map((item) => (
+                <li key={item.href} className="relative">
+                  {item.hasDropdown ? (
+                    <div
+                      className="relative"
+                      onMouseEnter={() => setHoveredItem(item.type!)}
+                      onMouseLeave={() => setHoveredItem(null)}
+                    >
+                      <span className="cursor-pointer hover:text-yellow-400 flex flex-col text-center">
+                        <span>{item.label}</span>
+                        <span className="text-xs text-gray-300 uppercase">{item.english}</span>
+                      </span>
+
+                      {/* Dropdown Menu */}
+                      {hoveredItem === item.type && (
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-black/95 backdrop-blur-sm border border-gray-700 rounded-lg shadow-xl min-w-[280px] z-50">
+                          {item.type === "products" && (
+                            <div className="p-4">
+                              <h4 className="text-yellow-400 text-sm font-semibold mb-3 uppercase border-b border-gray-700 pb-2">
+                                Ürün Gruplarımız
+                              </h4>
+                              {isLoading ? (
+                                <p className="text-gray-400 text-sm py-2">Yükleniyor...</p>
+                              ) : categoriesState.length > 0 ? (
+                                <ul className="space-y-2">
+                                  {categoriesState.map((cat) => (
+                                    <li key={cat.id}>
+                                      <Link 
+                                        href={`/${cat.slug}`} 
+                                        onClick={closeMenus} 
+                                        className="block hover:text-yellow-400 hover:bg-gray-800 px-3 py-2 rounded transition-colors text-sm"
+                                      >
+                                        {cat.name}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                <div className="px-3 py-2 text-sm text-gray-500">Kategori bulunamadı</div>
+                              )}
+                            </div>
+                          )}
+
+                          {item.type === "gallery" && (
+                            <div className="p-4">
+                              <div className="mb-4">
+                                <h4 className="text-yellow-400 text-sm font-semibold mb-3 uppercase border-b border-gray-700 pb-2">
+                                  Videolarımız
+                                </h4>
+                                <ul className="space-y-2 mb-4">
+                                  <li>
+                                    <Link href="/gallery/videos" onClick={closeMenus} className="block hover:text-yellow-400 hover:bg-gray-800 px-3 py-2 rounded transition-colors text-sm">
+                                      Tüm Videolar
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+                              
+                              <div>
+                                <h4 className="text-yellow-400 text-sm font-semibold mb-3 uppercase border-b border-gray-700 pb-2">
+                                  Albümlerimiz
+                                </h4>
+                                {isLoading ? (
+                                  <p className="text-gray-400 text-sm py-2">Yükleniyor...</p>
+                                ) : categoriesState.length > 0 ? (
+                                  <ul className="space-y-2">
+                                    {categoriesState.map((cat) => (
+                                      <li key={cat.id}>
+                                        <Link 
+                                          href={`/gallery/${cat.slug}`} 
+                                          onClick={closeMenus} 
+                                          className="block hover:text-yellow-400 hover:bg-gray-800 px-3 py-2 rounded transition-colors text-sm"
+                                        >
+                                          {cat.name}
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                ) : (
+                                  <div className="px-3 py-2 text-sm text-gray-500">Albüm bulunamadı</div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link href={item.href} className="hover:text-yellow-400 flex flex-col text-center">
+                      <span>{item.label}</span>
+                      <span className="text-xs text-gray-300 uppercase">{item.english}</span>
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            {/* Cart Icon for Desktop */}
+            <CartIcon />
+          </div>
+
+          {/* Mobile Menu Button and Cart */}
+          <div className="md:hidden flex items-center gap-2">
+            {/* Cart Icon for Mobile */}
+            <CartIcon />
+
+            <button
+              className="text-2xl z-10"
+              onClick={() => setMenuOpen(!isMenuOpen)}
+              aria-label="Menüyü Aç/Kapat"
+            >
+            ☰
+          </button>
+          </div>
 
           {/* Mobile Menu */}
           <div
@@ -242,127 +339,6 @@ export default function Navbar() {
               ))}
             </ul>
           </div>
-
-          {/* Desktop Menu */}
-          <ul className="hidden md:flex items-center gap-6 font-medium text-lg">
-            {mainMenuItems.map((item) => (
-              <li key={item.href} className="relative group">
-                {item.hasDropdown ? (
-                  <div className="relative">
-                    <div 
-                      className="cursor-pointer hover:text-yellow-400 transition-colors flex flex-col text-center py-4 px-3"
-                      onMouseEnter={() => setHoveredItem(item.type!)}
-                      onMouseLeave={() => setHoveredItem(null)}
-                    >
-                      <span>{item.label}</span>
-                      <span className="text-xs text-gray-400 uppercase">{item.english}</span>
-                    </div>
-                    
-                    {/* Desktop Dropdown Container */}
-                    <div 
-                      className={clsx(
-                        "absolute left-0 top-full w-72 bg-white text-black rounded-md shadow-2xl border transition-all duration-200 z-50",
-                        hoveredItem === item.type ? "opacity-100 visible" : "opacity-0 invisible"
-                      )}
-                      onMouseEnter={() => setHoveredItem(item.type!)}
-                      onMouseLeave={() => setHoveredItem(null)}
-                    >
-                      {/* Products Desktop Dropdown */}
-                      {item.type === "products" && (
-                        <>
-                          <div className="px-4 py-3 bg-yellow-50 rounded-t-md border-b border-gray-200">
-                            <h4 className="text-yellow-700 font-bold text-sm uppercase tracking-wide">Ürün Gruplarımız</h4>
-                          </div>
-                          {isLoading ? (
-                            <div className="px-4 py-3">
-                              <p className="text-gray-500 text-sm">Yükleniyor...</p>
-                            </div>
-                          ) : categoriesState.length > 0 ? (
-                            <ul className="space-y-2">
-                              {categoriesState.map((cat, index) => (
-                                <li key={cat.id}>
-                                  <Link 
-                                    href={`/${cat.slug}`} 
-                                    className={clsx(
-                                      "block px-4 py-3 hover:bg-yellow-50 hover:text-yellow-700 transition-colors font-medium",
-                                      index === categoriesState.length - 1 ? "rounded-b-md" : "border-b border-gray-100"
-                                    )}
-                                    onClick={closeMenus}
-                                  >
-                                    {cat.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <div className="px-4 py-3 text-gray-500 text-sm">Kategori bulunamadı</div>
-                          )}
-                        </>
-                      )}
-
-                      {/* Gallery Desktop Dropdown */}
-                      {item.type === "gallery" && (
-                        <>
-                          {/* Videolarımız Section */}
-                          <div className="px-4 py-3 bg-blue-50 rounded-t-md border-b border-gray-200">
-                            <h4 className="text-blue-700 font-bold text-sm uppercase tracking-wide">Videolarımız</h4>
-                          </div>
-                          <Link 
-                            href="/gallery/videos" 
-                            className="block px-4 py-3 hover:bg-blue-50 hover:text-blue-700 transition-colors border-b border-gray-200 font-medium"
-                            onClick={closeMenus}
-                          >
-                            Tüm Videolar
-                          </Link>
-
-                          {/* Albümlerimiz Section */}
-                          <div className="px-4 py-3 bg-green-50 border-b border-gray-200">
-                            <h4 className="text-green-700 font-bold text-sm uppercase tracking-wide">Albümlerimiz</h4>
-                          </div>
-                          <Link 
-                            href="/gallery" 
-                            className="block px-4 py-3 hover:bg-green-50 hover:text-green-700 transition-colors font-bold border-b border-gray-200"
-                            onClick={closeMenus}
-                          >
-                            Tüm Albümler
-                          </Link>
-                          {isLoading ? (
-                            <div className="px-4 py-3">
-                              <p className="text-gray-500 text-sm">Yükleniyor...</p>
-                            </div>
-                          ) : categoriesState.length > 0 ? (
-                            <ul className="space-y-2">
-                              {categoriesState.map((cat, index) => (
-                                <li key={cat.id}>
-                                  <Link 
-                                    href={`/gallery?category=${cat.slug}`} 
-                                    className={clsx(
-                                      "block px-4 py-3 hover:bg-green-50 hover:text-green-700 transition-colors font-medium",
-                                      index === categoriesState.length - 1 ? "rounded-b-md" : "border-b border-gray-100"
-                                    )}
-                                    onClick={closeMenus}
-                                  >
-                                    {cat.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-                          ) : (
-                            <div className="px-4 py-3 text-gray-500 text-sm">Kategori bulunamadı</div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <Link href={item.href} className="hover:text-yellow-400 transition-colors flex flex-col text-center py-4 px-3">
-                    <span>{item.label}</span>
-                    <span className="text-xs text-gray-400 uppercase">{item.english}</span>
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
         </div>
       </nav>
     </header>
